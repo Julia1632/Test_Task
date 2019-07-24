@@ -5,7 +5,7 @@ import java.util.Locale;
 
 public class Constants {
 	
-	public static final String PATH = "C:\\Users\\yuliya.zhurun\\eclipse-workspace\\Task\\File.txt";
+	public static final String PATH = System.getProperty("user.dir")+"\\src\\resource\\File.txt";
 	public static DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss", Locale.ENGLISH);
 	public static String SPACE = " ";
 	public static String NEWLINE="\n";

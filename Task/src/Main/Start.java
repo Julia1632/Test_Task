@@ -1,4 +1,8 @@
 package Main;
+
+import java.io.FileReader;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -8,6 +12,7 @@ import java.util.regex.Pattern;
 import model.Bancomat;
 import model.Card;
 import model.IBancomat;
+import utils.Constants;
 import utils.FileReaderPath;
 import utils.FileWriterPath;
 
@@ -18,8 +23,6 @@ public class Start {
 		IBancomat b2 = Bancomat.getCreateState();
 		FileReaderPath f = new FileReaderPath();
 		b2.setCardList(f.readInto());
-
-		// b2.getCardList();
 
 		Scanner scanner = new Scanner(System.in);
 		String inputCardNum;
@@ -84,11 +87,11 @@ public class Start {
 										System.out.println("Снять со счета: Введите сумму (лимит 1000000)");
 										int sumDel = 0;
 										sumDel = scanner.nextInt();
-										if (sumDel > 1000000 || userCard.getBalance() < sumDel)
-											; {
-										System.out.println("Некорректная сумма");
-									}
-										userCard.setBalance(userCard.getBalance() - sumDel);
+										if (sumDel > 1000000 || userCard.getBalance() < sumDel) {
+											System.out.println("Некорректная сумма");
+										} else {
+											userCard.setBalance(userCard.getBalance() - sumDel);
+										}
 										break;
 									case 4:
 										System.out.println("Завершение работы");
@@ -106,13 +109,19 @@ public class Start {
 								userCard.setCounterErrLogin(userCard.getCounterErrLogin() + 1);
 								Date dateNow = new Date();
 								userCard.setDateLastLog(dateNow);
-								System.out.println("Попробовать еще раз? (1=Да 2=Нет)");
+								if (3 - userCard.getCounterErrLogin() > 0) {
+									System.out.println("Попробовать еще раз? (1=Да 2=Нет)");
 
-								int ansRepPin;
-								ansRepPin = scanner.nextInt();
-								if (ansRepPin == 2) {
-									flagPinCode = 1;
-									System.out.println("Завершена работа");
+									int ansRepPin;
+									ansRepPin = scanner.nextInt();
+									if (ansRepPin == 2) {
+										flagPinCode = 1;
+										System.out.println("Завершена работа");
+									} else if (ansRepPin != 1) {
+										flagPinCode = 1;
+										System.out.println("Некорректный ответ");
+										System.out.println("Завершена работа");
+									}
 								}
 
 							}
@@ -143,11 +152,11 @@ public class Start {
 				}
 			}
 		}
+		scanner.close();
 		
-		FileWriterPath fileWriter =new FileWriterPath();
+		FileWriterPath fileWriter = new FileWriterPath();
 		fileWriter.writeInto(b2.getCardList());
-		
-	}
 
+	}
 
 }
