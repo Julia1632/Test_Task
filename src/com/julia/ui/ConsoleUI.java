@@ -21,7 +21,7 @@ public class ConsoleUI {
 		List<Card> cardList = bancomat.getCardList();
 
 		while (flagNumber == 0) {
-			System.out.println("Enter card number(ееее-ееее-ееее-ееее)");
+			System.out.println("Enter card number(XXXX-XXXX-XXXX-XXXX)");
 			inputCardNum = scanner.nextLine();
 
 			if (CheckCards.checkNumber(inputCardNum)) {
